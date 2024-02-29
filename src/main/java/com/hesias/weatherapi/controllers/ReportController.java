@@ -72,9 +72,19 @@ public class ReportController {
         var reportValue = report.get();
         reportValue.setHumidity(_report.getHumidity());
         reportValue.setTemperature(_report.getTemperature());
-        reportValue.setPoint(_report.getPoint());
+        reportValue.setLatitude(_report.getLatitude());
+        reportValue.setLongitude(_report.getLongitude());
         reportService.saveReport(report.get());
         return ResponseEntity.ok(report.get());
+    }
+
+    @GetMapping("/reports/radius")
+    public ResponseEntity<Iterable<Report>> getReportsInRadius(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius) {
+        var reports = reportService.getReportsInRadius(latitude, longitude, radius);
+        if (reports == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
 }

@@ -6,8 +6,6 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 @Data
@@ -45,6 +43,11 @@ public class ReportService {
 
     public Optional<Report> getReportById(final Long id) {
         return reportRepository.findById(id);
+    }
+
+    // get reports by latitude and longitude in a given radius
+    public Iterable<Report> getReportsInRadius(double latitude, double longitude, double radius) {
+        return reportRepository.findReportsInRadius(latitude, longitude, radius);
     }
 
 
