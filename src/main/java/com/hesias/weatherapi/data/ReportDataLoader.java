@@ -23,10 +23,10 @@ public class ReportDataLoader implements CommandLineRunner {
 
     private void loadReports() {
         if(reportRepository.count() == 0) {
-            Report report = new Report(new Point(1, 1),"24","Ciel Bleu");
-            Report report2 = new Report(new Point(1, 1),"24","Eclairer");
+            Report report = new Report(1.2, 30.0, "15", "Pluie");
+            Report report2 = new Report(2.6, 25.0, "20", "Nuageux");
             report2.setHumidity("");
-            Report report3 = new Report(new Point(1, 1),"25","Nuageux");
+            Report report3 = new Report(3.0, 20.0, "25", "Ensoleillé");
 
             reportService.saveReport(report);
             reportService.saveReport(report2);

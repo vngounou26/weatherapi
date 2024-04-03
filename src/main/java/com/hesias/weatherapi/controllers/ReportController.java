@@ -72,7 +72,8 @@ public class ReportController {
         var reportValue = report.get();
         reportValue.setHumidity(_report.getHumidity());
         reportValue.setTemperature(_report.getTemperature());
-        reportValue.setPoint(_report.getPoint());
+        reportValue.setLatitude(_report.getLatitude());
+        reportValue.setLongitude(_report.getLongitude());
         reportService.saveReport(report.get());
         return ResponseEntity.ok(report.get());
     }

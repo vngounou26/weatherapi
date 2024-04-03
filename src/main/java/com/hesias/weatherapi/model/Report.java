@@ -2,6 +2,7 @@ package com.hesias.weatherapi.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.geo.Point;
 
 import java.time.LocalDateTime;
@@ -19,30 +20,25 @@ public class Report {
 
     }
 
-    public void setPoint(Point point) {
-        this.point = point;
-    }
-
-    public void setTemperature(String temperature) {
-        this.temperature = temperature;
-    }
-
-    public void setHumidity(String humidity) {
-        this.humidity = humidity;
-    }
-
     // set by the server
     @Getter
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp", nullable = false, updatable = false)
     private LocalDateTime timestamp=LocalDateTime.now();
 
+    @Setter
     @Getter
-    private Point point;
+    private Double latitude;
 
+    @Setter
+    @Getter
+    private Double longitude;
+
+    @Setter
     @Getter
     private String temperature;
 
+    @Setter
     @Getter
     private String humidity;
 
@@ -52,9 +48,11 @@ public class Report {
         this.timestamp = timestamp;
     }
 
-    public Report( Point point, String temperature, String humidity) {
-        this.point = point;
+    public Report(Double latitude, Double longitude, String temperature, String humidity) {
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.temperature = temperature;
         this.humidity = humidity;
     }
+
 }
