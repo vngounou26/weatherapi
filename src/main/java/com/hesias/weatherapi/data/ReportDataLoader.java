@@ -4,22 +4,22 @@ import com.hesias.weatherapi.model.Report;
 import com.hesias.weatherapi.repositories.ReportRepository;
 import com.hesias.weatherapi.services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.geo.Point;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ReportDataLoader implements CommandLineRunner {
+public class ReportDataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private ReportService reportService;
 
     @Autowired
     private ReportRepository reportRepository;
 
-    @Override
-    public void run(String... args) throws Exception {
-        loadReports();
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        loadReports();
+//    }
 
     private void loadReports() {
         if(reportRepository.count() == 0) {
@@ -34,5 +34,10 @@ public class ReportDataLoader implements CommandLineRunner {
         }
 
         System.out.println("Reports Loaded: " + reportRepository.count());
+    }
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        loadReports();
     }
 }
