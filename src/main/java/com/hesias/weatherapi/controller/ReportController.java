@@ -1,8 +1,7 @@
-package com.hesias.weatherapi.controllers;
+package com.hesias.weatherapi.controller;
 
 import com.hesias.weatherapi.model.Report;
-import com.hesias.weatherapi.services.ReportService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hesias.weatherapi.service.ReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,12 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController()
-@RequestMapping("/api")
-@CrossOrigin(origins = "localhost:5500")
+@RequestMapping("/api/v1/reports")
 public class ReportController {
 
-    @Autowired
     private ReportService reportService;
+
+    public ReportController(ReportService reportService) {
+        this.reportService = reportService;
+    }
 
     @GetMapping("/reports")
     public ResponseEntity<Iterable<Report>> getAllReports() {

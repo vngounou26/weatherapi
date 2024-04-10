@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.hesias.weatherapi")
+@ComponentScan(basePackages = {"com.hesias.weatherapi", "com.hesias.weatherapi.repository", "com.hesias.weatherapi.model", "com.hesias.weatherapi.controller"})
 public class AppConfig {
 
     @Bean

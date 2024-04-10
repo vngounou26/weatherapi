@@ -1,9 +1,8 @@
-package com.hesias.weatherapi.services;
+package com.hesias.weatherapi.service;
 
 import com.hesias.weatherapi.model.Employee;
-import com.hesias.weatherapi.repositories.EmployeeRepository;
+import com.hesias.weatherapi.repository.EmployeeRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,8 +10,12 @@ import java.util.Optional;
 @Data
 @Service
 public class EmployeeService {
-    @Autowired
+
     private EmployeeRepository employeeRepository;
+
+    public EmployeeService(EmployeeRepository employeeRepository){
+        this.employeeRepository = employeeRepository;
+    }
 
     public Optional<Employee> getEmployeeById(final Long id) {
         return employeeRepository.findById(id);

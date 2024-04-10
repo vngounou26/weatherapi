@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.hesias.weatherapi.configuration" })
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
 
@@ -43,6 +42,7 @@ public class HibernateConfiguration {
         dataSource.setPassword(environment.getRequiredProperty("spring.datasource.password"));
         return dataSource;
     }
+
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();

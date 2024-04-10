@@ -1,8 +1,8 @@
 package com.hesias.weatherapi.data;
 
 import com.hesias.weatherapi.model.Report;
-import com.hesias.weatherapi.repositories.ReportRepository;
-import com.hesias.weatherapi.services.ReportService;
+import com.hesias.weatherapi.repository.ReportRepository;
+import com.hesias.weatherapi.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

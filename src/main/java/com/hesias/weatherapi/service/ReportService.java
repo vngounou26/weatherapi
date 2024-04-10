@@ -1,20 +1,21 @@
-package com.hesias.weatherapi.services;
+package com.hesias.weatherapi.service;
 
 import com.hesias.weatherapi.model.Report;
-import com.hesias.weatherapi.repositories.ReportRepository;
+import com.hesias.weatherapi.repository.ReportRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 @Data
 @Service
 public class ReportService {
-    @Autowired
+
     private ReportRepository reportRepository;
+
+    public ReportService(ReportRepository reportRepository) {
+        this.reportRepository = reportRepository;
+    }
 
     public Iterable<Report> getAllReports() {
         var reports = reportRepository.findAll();

@@ -1,4 +1,4 @@
-package com.hesias.weatherapi.repositories;
+package com.hesias.weatherapi.repository;
 
 import com.hesias.weatherapi.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
