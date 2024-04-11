@@ -1,6 +1,7 @@
 package com.hesias.weatherapi.controllers;
 
-import com.hesias.weatherapi.model.Report;
+import com.hesias.weatherapi.dto.PostRequest;
+import com.hesias.weatherapi.dto.ReportDto;
 import com.hesias.weatherapi.services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,13 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    @GetMapping("/reports")
-    public ResponseEntity<Iterable<Report>> getAllReports() {
+    @GetMapping("/reports/{sortType}")
+    public ResponseEntity<Iterable<ReportDto>> getAllReports(@PathVariable int sortType) {
         try {
-            var reports = reportService.getAllReports();
+            var reports = reportService.getAllReports(sortType);
+            // reorder the reports by timestamp in descending order
+
+
             if (reports == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -31,18 +35,18 @@ public class ReportController {
         }
     }
 
-    @GetMapping("/reports/{id}")
-    public ResponseEntity<Report> getReportById(@PathVariable final Long id) {
-        try {
-            Optional<Report> report = reportService.getReportById(id);
-            return report.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+//    @GetMapping("/reports/{id}")
+//    public ResponseEntity<ReportDto> getReportById(@PathVariable final Long id) {
+//        try {
+//            Optional<ReportDto> report = reportService.getReportById(id);
+//            return report.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
 
     @PostMapping("/reports")
-    public ResponseEntity<Report> saveReport(@Validated @RequestBody Report _report) {
+    public ResponseEntity<ReportDto> saveReport(@Validated @RequestBody ReportDto _report) {
         try {
             var report = reportService.saveReport(_report);
             if (report == null) {
@@ -64,18 +68,28 @@ public class ReportController {
     }
 
     @PutMapping("/reports/{id}")
-    public ResponseEntity<Report> updateReportById(@PathVariable final Long id,@Validated @RequestBody Report _report) {
+    public ResponseEntity<ReportDto> updateReportById(@PathVariable final Long id,@Validated @RequestBody ReportDto _report) {
         var report= reportService.getReportById(id);
         if (report.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         var reportValue = report.get();
-        reportValue.setHumidity(_report.getHumidity());
+        reportValue.setObservation(_report.getObservation());
         reportValue.setTemperature(_report.getTemperature());
         reportValue.setLatitude(_report.getLatitude());
         reportValue.setLongitude(_report.getLongitude());
         reportService.saveReport(report.get());
         return ResponseEntity.ok(report.get());
+    }
+
+    @PostMapping("/reports/find")
+    public ResponseEntity<Iterable<ReportDto>> findReportsByLocationAndRadius(@RequestBody PostRequest postRequest) {
+        var reports = reportService.findReportsByLocationAndRadius(postRequest.getLatitude(), postRequest.getLongitude(), postRequest.getKmRadius());
+        if (reports == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+
     }
 
 }
