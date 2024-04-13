@@ -12,14 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController()
-@RequestMapping("/api/v1")
-@CrossOrigin(origins = "localhost:5500")
+@RequestMapping("/api/reports")
+//@CrossOrigin(origins = "localhost:5500")
 public class ReportController {
 
-    @Autowired
-    private ReportService reportService;
+    private final ReportService reportService;
 
-    @GetMapping("/reports/{sortType}")
+    public ReportController(ReportService reportService) {
+        this.reportService = reportService;
+    }
+
+    @GetMapping("/sort/{sortType}")
     public ResponseEntity<Iterable<ReportDto>> getAllReports(@PathVariable int sortType) {
         try {
             var reports = reportService.getAllReports(sortType);
@@ -35,17 +38,17 @@ public class ReportController {
         }
     }
 
-//    @GetMapping("/reports/{id}")
-//    public ResponseEntity<ReportDto> getReportById(@PathVariable final Long id) {
-//        try {
-//            Optional<ReportDto> report = reportService.getReportById(id);
-//            return report.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+    @GetMapping("/reports/{id}")
+    public ResponseEntity<ReportDto> getReportById(@PathVariable final Long id) {
+        try {
+            Optional<ReportDto> report = reportService.getReportById(id);
+            return report.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
-    @PostMapping("/reports")
+    @PostMapping("")
     public ResponseEntity<ReportDto> saveReport(@Validated @RequestBody ReportDto _report) {
         try {
             var report = reportService.saveReport(_report);
@@ -58,7 +61,7 @@ public class ReportController {
         }
     }
 
-    @DeleteMapping("/reports/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteReportById(final Long id) {
         var report= reportService.deleteReportById(id);
         if (!report) {
@@ -67,7 +70,7 @@ public class ReportController {
         return ResponseEntity.ok(report);
     }
 
-    @PutMapping("/reports/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ReportDto> updateReportById(@PathVariable final Long id,@Validated @RequestBody ReportDto _report) {
         var report= reportService.getReportById(id);
         if (report.isEmpty()) {
@@ -82,7 +85,7 @@ public class ReportController {
         return ResponseEntity.ok(report.get());
     }
 
-    @PostMapping("/reports/find")
+    @PostMapping("/find")
     public ResponseEntity<Iterable<ReportDto>> findReportsByLocationAndRadius(@RequestBody PostRequest postRequest) {
         var reports = reportService.findReportsByLocationAndRadius(postRequest.getLatitude(), postRequest.getLongitude(), postRequest.getKmRadius());
         if (reports == null) {

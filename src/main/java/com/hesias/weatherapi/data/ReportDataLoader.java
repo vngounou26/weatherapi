@@ -23,10 +23,9 @@ public class ReportDataLoader implements CommandLineRunner {
 
     private void loadReports() {
         if(reportRepository.count() == 0) {
-            var report = new ReportDto(1.2, 30.0, "15", "Snow");
-            var report2 = new ReportDto(2.6, 25.0, "20", "Rain");
-            report2.setObservation("");
-            var report3 = new ReportDto(3.0, 20.0, "25", "Clear");
+            var report = new ReportDto(45.75798944121002, 3.1323735428663837, 15, "Snow");
+            var report2 = new ReportDto(45.76160410108799, 3.1296820830990053, 20, "Rain");
+            var report3 = new ReportDto(45.759303890077916, 3.1259813259188602, 25, "Clear");
 
             reportService.saveReport(report);
             reportService.saveReport(report2);

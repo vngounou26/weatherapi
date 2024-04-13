@@ -17,8 +17,12 @@ import java.util.Optional;
 @Data
 @Service
 public class ReportService {
-    @Autowired
-    private ReportRepository reportRepository;
+
+    private final ReportRepository reportRepository;
+
+    public ReportService(ReportRepository reportRepository) {
+        this.reportRepository = reportRepository;
+    }
 
     public Iterable<ReportDto> getAllReports(int sortType) {
         List<Report> reports = null;
@@ -26,7 +30,7 @@ public class ReportService {
             reports=reportRepository.findAll(Sort.by(Sort.Direction.DESC, "timestamp"));
         }
         else {
-            reports= reportRepository.findAll(Sort.by(Sort.Direction.ASC, "temperature"));
+            reports= reportRepository.findAll(Sort.by(Sort.Direction.ASC, "timestamp"));
         }
         if (reports.isEmpty()) {
             return null;

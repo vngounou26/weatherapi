@@ -27,7 +27,7 @@ public class Report {
 
     private Double longitude;
 
-    private String temperature;
+    private int temperature;
 
     private String observation;
 
@@ -41,7 +41,7 @@ public class Report {
         this.timestamp = timestamp;
     }
 
-    public Report(Double latitude, Double longitude, String temperature, String observation) {
+    public Report(Double latitude, Double longitude, int temperature, String observation) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.temperature = temperature;
